@@ -2,45 +2,65 @@
 import random
 import json
 
-quotes = [
-    "Nakama desho ne ?", 
-    "Ikuze mina !",
-    "Kaizoku ore wa naru",
-    "Oden ni soro"
-]
-
-
-def read_value_from_json():
+def read_values_from_json(path, key):
     values = []
-    
-    with open('characters.json') as f:
+    with open(path) as f:
         data = json.load(f)
-    for entry in data:
-        values.append(entry['character'])
-    return values
+        for entry in data:
+            values.append(entry[key])
+        return values
     
-def get_random_item(my_list):
-    rand_numb = random.randint(0, len(my_list) -1)
-    item = my_list[rand_numb]
-    return item
+def clean_strings(sentences):
+        cleaned = []
+        
+        for sentence in sentences:
+            clean_sentence = sentence.strip()
+            cleaned.append(clean_sentence)
+        return cleaned
+
+def random_item_in(object_list):
+    rand_numb = random.randint(0, len(object_list) -1)
+    return object_list[rand_numb]
+
+def random_value(source_path, key):
+    all_values = read_values_from_json(source_path, key)
+    clean_values = clean_strings(all_values)
+    return random_item_in(clean_values)
+
+                    ##### CITATIONS
+
+# Citations de Wkipédia
+
+def random_quote():
+    return random_value('quotes.json', 'quote')
+
+                    ##### PERSONNAGES
+                    
+# Personnages de One Piece
 
 def random_character():
-    all_values = read_value_from_json()
-    return get_random_item(all_values)
+    return random_value('character.json', 'character')
 
-def capitalize(words):
-    for word in words:
-        word.capitalize()
-        
-def message(character, quote):
-    capitalize(character)
-    capitalize(quote)
-    return "{} a dit : {}".format(character, quote)
+                    ##### INTERACTION
 
-user_answer = input("Tapez entrée pour connaitre une autre citation ou B pour quitter")
+# Envoie une réplique au hasard
 
-while user_answer != "B":
-    print(message(random_character(), get_random_item(quotes)))
-    user_answer = input("Tapez entrée pour connaitre une autre citation ou B pour quitter")
-
+def print_random_sentence():
+    rand_quote = random_quote()
+    rand_character = random_character()
+    print(">>>> {} a dit : {}".format(rand_character, rand_quote))
     
+def main_loop():
+    while True:
+        print_random_sentence()
+        message = ('Eto wa nakama desho ?'
+                   'Pour sortir du programme, tapez : B')
+        choice = input(message).upper()
+        if choice == 'B':
+            break
+        # Boucle stoppée
+if __name__ == '__main__':
+    main_loop()
+    
+        
+        
