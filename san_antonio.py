@@ -39,7 +39,7 @@ def random_quote():
 # Personnages de One Piece
 
 def random_character():
-    return random_value('character.json', 'character')
+    return random_value('characters.json', 'character')
 
                     ##### INTERACTION
 
@@ -53,7 +53,7 @@ def print_random_sentence():
 def main_loop():
     while True:
         print_random_sentence()
-        message = ('Eto wa nakama desho ?'
+        message = ('Voulez vous continuer ?'
                    'Pour sortir du programme, tapez : B')
         choice = input(message).upper()
         if choice == 'B':
